@@ -628,6 +628,7 @@ services:
 2. **Код + Объяснение:** каждый блок кода сопровождается детальным объяснением
 3. **Обучающий подход:** все объяснения максимально подробные (для обучения)
 4. **ОДИН ШАГ ЗА РАЗ:** не делай несколько шагов подряд без объяснений
+5. **Best Practices:** всегда используй лучшие практики индустрии и объясняй почему выбрано именно это решение
 
 #### Структура ответа (СТРОГО СЛЕДОВАТЬ!)
 ```
@@ -637,7 +638,8 @@ services:
    - Что делает этот код
    - Для чего нужен каждый компонент
    - Как это работает
-   - Почему выбран именно такой подход
+   - Почему выбран именно такой подход (Best Practice)
+   - Какие альтернативы существуют и почему они НЕ выбраны
    - Связь с другими частями проекта
 4. Вопрос: "Всё понятно? Готов двигаться дальше?"
 ```
@@ -658,6 +660,8 @@ services:
 - ✅ Двигаться поэтапно
 - ✅ Ждать подтверждения перед переходом к следующему шагу
 - ✅✅✅ **ОДИН ШАГ = ОДИН ФАЙЛ + ОБЪЯСНЕНИЕ + ОЖИДАНИЕ** ✅✅✅
+- ✅ **ИСПОЛЬЗОВАТЬ BEST PRACTICES:** всегда применять лучшие практики индустрии
+- ✅ **ОБЪЯСНЯТЬ ВЫБОР:** почему выбрано именно это решение, а не альтернативное
 
 #### Пример правильного ответа
 
@@ -705,6 +709,11 @@ SQLAlchemy использует эту модель для генерации SQ
 - DateTime с timezone обеспечивает корректную работу с временными зонами
 - server_default вместо default гарантирует, что время устанавливается на уровне БД
 
+**Альтернативы и почему они НЕ выбраны:**
+- `default=datetime.now()` - плохая практика, т.к. время устанавливается при импорте модуля, а не при создании записи
+- Хранение времени без timezone - может привести к проблемам при работе с пользователями из разных часовых поясов
+- Отсутствие индексов - замедлит поиск пользователей при росте базы данных
+
 **Связь с другими частями:**
 Эта модель будет использоваться в:
 - Authentication (проверка email/password)
@@ -716,9 +725,17 @@ SQLAlchemy использует эту модель для генерации SQ
 ### Процесс разработки
 
 #### Начало работы
-1. Определяем текущий этап из Timeline
-2. Разбиваем этап на подзадачи
-3. Выполняем подзадачи последовательно
+1. **Проверить TODO список** (в конце документа) - определить текущий этап
+2. Определяем текущий этап из Timeline
+3. Разбиваем этап на подзадачи
+4. Выполняем подзадачи последовательно
+5. **Отмечаем выполненные задачи** в TODO списке
+
+#### Продолжение работы
+- **ВСЕГДА** сначала смотри TODO список в конце документа
+- Определи какие задачи уже выполнены (✅)
+- Определи текущую задачу (🔄)
+- Продолжай с текущей задачи или переходи к следующей
 
 #### Завершение шага
 После каждого шага спрашиваю: "Готов двигаться дальше?"
@@ -827,3 +844,264 @@ SQLAlchemy использует эту модель для генерации SQ
 ---
 
 **Следующий шаг:** Начало разработки - Этап 1 (Backend API + Database)
+
+---
+
+## 📋 TODO: Этапы разработки
+
+### Легенда
+- ⬜ Не начато
+- 🔄 В процессе
+- ✅ Завершено
+
+---
+
+### Этап 1: Backend API + Database ⬜
+- ⬜ 1.1. Настройка структуры проекта (backend/)
+  - ⬜ Создание директорий (app/, alembic/, tests/)
+  - ⬜ Создание requirements.txt
+  - ⬜ Настройка виртуального окружения
+- ⬜ 1.2. Настройка FastAPI
+  - ⬜ Создание app/main.py (точка входа)
+  - ⬜ Настройка CORS
+  - ⬜ Настройка middleware
+- ⬜ 1.3. Настройка базы данных
+  - ⬜ Создание app/core/database.py (подключение к PostgreSQL)
+  - ⬜ Создание app/core/config.py (настройки из .env)
+  - ⬜ Настройка Alembic для миграций
+- ⬜ 1.4. Создание моделей базы данных
+  - ⬜ app/models/user.py
+  - ⬜ app/models/level.py
+  - ⬜ app/models/module.py
+  - ⬜ app/models/topic.py
+  - ⬜ app/models/exercise.py
+  - ⬜ app/models/user_progress.py
+  - ⬜ app/models/vocabulary.py
+  - ⬜ app/models/user_vocabulary.py
+  - ⬜ app/models/audio_resource.py
+  - ⬜ app/models/comment.py
+  - ⬜ app/models/study_buddy_request.py
+  - ⬜ app/models/level_test.py
+  - ⬜ app/models/level_test_question.py
+  - ⬜ app/models/user_test_attempt.py
+  - ⬜ app/models/achievement.py
+  - ⬜ app/models/user_achievement.py
+- ⬜ 1.5. Создание Pydantic схем
+  - ⬜ app/schemas/user.py
+  - ⬜ app/schemas/level.py
+  - ⬜ app/schemas/topic.py
+  - ⬜ app/schemas/exercise.py
+  - ⬜ (остальные схемы по аналогии)
+- ⬜ 1.6. Создание первой миграции
+  - ⬜ alembic revision --autogenerate
+  - ⬜ alembic upgrade head
+- ⬜ 1.7. Базовые CRUD endpoints
+  - ⬜ app/api/endpoints/users.py
+  - ⬜ app/api/endpoints/levels.py
+  - ⬜ app/api/endpoints/topics.py
+
+---
+
+### Этап 2: Frontend базовый ⬜
+- ⬜ 2.1. Настройка Next.js проекта
+  - ⬜ npx create-next-app@latest
+  - ⬜ Настройка TypeScript
+  - ⬜ Настройка Tailwind CSS
+- ⬜ 2.2. Установка shadcn/ui
+  - ⬜ npx shadcn-ui@latest init
+  - ⬜ Добавление базовых компонентов (Button, Card, Input)
+- ⬜ 2.3. Настройка Zustand
+  - ⬜ Создание store/authStore.ts
+  - ⬜ Создание store/userStore.ts
+- ⬜ 2.4. Настройка TanStack Query
+  - ⬜ Создание lib/queryClient.ts
+  - ⬜ Обертка провайдера в app/layout.tsx
+- ⬜ 2.5. Настройка Axios
+  - ⬜ Создание lib/axios.ts (базовая конфигурация)
+  - ⬜ Настройка interceptors
+- ⬜ 2.6. Базовая структура страниц
+  - ⬜ app/page.tsx (главная)
+  - ⬜ app/dashboard/page.tsx
+  - ⬜ app/learn/page.tsx
+  - ⬜ app/vocabulary/page.tsx
+  - ⬜ app/listening/page.tsx
+
+---
+
+### Этап 3: Authentication ⬜
+- ⬜ 3.1. Backend: JWT токены
+  - ⬜ app/core/security.py (создание/проверка токенов)
+  - ⬜ app/core/deps.py (dependency для защиты роутов)
+- ⬜ 3.2. Backend: Email/Password
+  - ⬜ app/api/endpoints/auth.py (register, login, refresh)
+  - ⬜ Password hashing (passlib + bcrypt)
+- ⬜ 3.3. Backend: Google OAuth
+  - ⬜ Настройка OAuth клиента
+  - ⬜ app/api/endpoints/oauth.py
+- ⬜ 3.4. Frontend: Auth UI
+  - ⬜ app/auth/login/page.tsx
+  - ⬜ app/auth/register/page.tsx
+  - ⬜ components/auth/LoginForm.tsx
+  - ⬜ components/auth/RegisterForm.tsx
+- ⬜ 3.5. Frontend: Auth логика
+  - ⬜ Сохранение токенов в localStorage
+  - ⬜ Middleware для защиты роутов
+  - ⬜ Автоматический refresh токенов
+
+---
+
+### Этап 4: Контент (Scraping + Admin) ⬜
+- ⬜ 4.1. Web scraping скрипты
+  - ⬜ backend/scripts/scrapers/bbc_scraper.py
+  - ⬜ backend/scripts/scrapers/british_council_scraper.py
+  - ⬜ backend/scripts/scrapers/cambridge_scraper.py
+- ⬜ 4.2. Валидация контента
+  - ⬜ Pydantic схемы для scraped данных
+  - ⬜ AI проверка качества (OpenRouter)
+- ⬜ 4.3. Admin Panel Backend
+  - ⬜ app/api/endpoints/admin/content.py
+  - ⬜ app/api/endpoints/admin/scraping.py
+  - ⬜ app/api/endpoints/admin/moderation.py
+- ⬜ 4.4. Admin Panel Frontend
+  - ⬜ app/admin/page.tsx
+  - ⬜ app/admin/content/page.tsx
+  - ⬜ app/admin/scraping/page.tsx
+  - ⬜ components/admin/ContentEditor.tsx
+  - ⬜ components/admin/ScrapingControl.tsx
+
+---
+
+### Этап 5: Обучение (Теория + Упражнения) ⬜
+- ⬜ 5.1. Backend: Topics API
+  - ⬜ GET /topics/{id} (получение темы с теорией)
+  - ⬜ GET /topics/{id}/exercises (получение упражнений)
+  - ⬜ POST /exercises/{id}/submit (проверка ответа)
+- ⬜ 5.2. Frontend: Страница темы
+  - ⬜ app/learn/[levelId]/[topicId]/page.tsx
+  - ⬜ components/learn/TheoryView.tsx
+  - ⬜ components/learn/ExerciseList.tsx
+- ⬜ 5.3. Frontend: Компоненты упражнений
+  - ⬜ components/exercises/MultipleChoice.tsx
+  - ⬜ components/exercises/FillInBlanks.tsx
+  - ⬜ components/exercises/Matching.tsx
+  - ⬜ components/exercises/TrueFalse.tsx
+  - ⬜ components/exercises/Ordering.tsx
+  - ⬜ components/exercises/Writing.tsx
+- ⬜ 5.4. Сохранение прогресса
+  - ⬜ Backend: POST /progress (сохранение прогресса)
+  - ⬜ Frontend: автоматическое сохранение
+
+---
+
+### Этап 6: Vocabulary + Spaced Repetition ⬜
+- ⬜ 6.1. Backend: FSRS алгоритм
+  - ⬜ app/services/fsrs.py (реализация алгоритма)
+  - ⬜ app/api/endpoints/vocabulary.py
+- ⬜ 6.2. Backend: Vocabulary API
+  - ⬜ GET /vocabulary/due (слова для повторения)
+  - ⬜ POST /vocabulary/{id}/review (отметка повторения)
+- ⬜ 6.3. Frontend: Vocabulary страница
+  - ⬜ app/vocabulary/page.tsx
+  - ⬜ components/vocabulary/Flashcard.tsx
+  - ⬜ components/vocabulary/ProgressStats.tsx
+
+---
+
+### Этап 7: Аудирование ⬜
+- ⬜ 7.1. Backend: Audio API
+  - ⬜ GET /audio (список аудио)
+  - ⬜ GET /audio/{id} (детали аудио + транскрипт)
+  - ⬜ POST /audio/{id}/answer (проверка ответов)
+- ⬜ 7.2. Cloudflare R2 интеграция
+  - ⬜ app/services/storage.py (загрузка/получение файлов)
+- ⬜ 7.3. Frontend: Audio плеер
+  - ⬜ app/listening/page.tsx
+  - ⬜ components/listening/AudioPlayer.tsx (Howler.js)
+  - ⬜ components/listening/InteractiveTranscript.tsx
+  - ⬜ components/listening/ComprehensionQuestions.tsx
+
+---
+
+### Этап 8: Тесты на уровень ⬜
+- ⬜ 8.1. Backend: Tests API
+  - ⬜ GET /tests/level-assessment (получение теста)
+  - ⬜ POST /tests/submit (отправка ответов)
+  - ⬜ GET /tests/results/{id} (результаты)
+- ⬜ 8.2. Frontend: Test UI
+  - ⬜ app/test/level-assessment/page.tsx
+  - ⬜ components/test/TestQuestion.tsx
+  - ⬜ components/test/TestResults.tsx
+  - ⬜ components/test/TestTimer.tsx
+
+---
+
+### Этап 9: Социальные функции ⬜
+- ⬜ 9.1. Backend: Comments API
+  - ⬜ GET /topics/{id}/comments
+  - ⬜ POST /topics/{id}/comments
+  - ⬜ Модерация (blacklist слов)
+- ⬜ 9.2. Backend: Study Buddy API
+  - ⬜ GET /study-buddy/requests
+  - ⬜ POST /study-buddy/requests
+- ⬜ 9.3. Backend: Profiles API
+  - ⬜ GET /users/{id}/profile (публичный профиль)
+  - ⬜ GET /leaderboard (рейтинг)
+- ⬜ 9.4. Frontend: Social UI
+  - ⬜ components/social/CommentSection.tsx
+  - ⬜ app/study-buddy/page.tsx
+  - ⬜ app/profile/[userId]/page.tsx
+  - ⬜ app/leaderboard/page.tsx
+
+---
+
+### Этап 10: Личный кабинет + Метрики ⬜
+- ⬜ 10.1. Backend: Analytics API
+  - ⬜ GET /dashboard/stats (все метрики)
+  - ⬜ GET /dashboard/heatmap (активность)
+  - ⬜ GET /dashboard/recommendations (AI рекомендации)
+- ⬜ 10.2. Frontend: Dashboard
+  - ⬜ app/dashboard/page.tsx
+  - ⬜ components/dashboard/ProgressChart.tsx (Recharts)
+  - ⬜ components/dashboard/ActivityHeatmap.tsx
+  - ⬜ components/dashboard/SkillRadar.tsx
+  - ⬜ components/dashboard/StreakCounter.tsx
+  - ⬜ components/dashboard/Recommendations.tsx
+
+---
+
+### Этап 11: AI интеграция ⬜
+- ⬜ 11.1. OpenRouter настройка
+  - ⬜ app/services/ai.py (клиент OpenRouter)
+  - ⬜ Выбор бесплатных моделей
+- ⬜ 11.2. AI функции
+  - ⬜ Объяснение ошибок (POST /exercises/{id}/explain)
+  - ⬜ Рекомендации аудирования (GET /audio/recommendations)
+  - ⬜ Модерация комментариев (автоматическая)
+  - ⬜ Проверка Writing упражнений
+
+---
+
+### Этап 12: Deployment ⬜
+- ⬜ 12.1. Docker
+  - ⬜ backend/Dockerfile
+  - ⬜ frontend/Dockerfile
+  - ⬜ docker-compose.yml (все сервисы)
+- ⬜ 12.2. Nginx
+  - ⬜ nginx/nginx.conf
+  - ⬜ SSL сертификаты (Let's Encrypt)
+- ⬜ 12.3. GitHub Actions CI/CD
+  - ⬜ .github/workflows/deploy.yml
+  - ⬜ Настройка secrets
+- ⬜ 12.4. VPS настройка
+  - ⬜ Установка Docker на VPS
+  - ⬜ Настройка домена (DuckDNS)
+  - ⬜ Первый деплой
+- ⬜ 12.5. Мониторинг
+  - ⬜ Настройка Sentry
+  - ⬜ Настройка UptimeRobot
+  - ⬜ Настройка логирования
+
+---
+
+**Текущий статус:** ⬜ Не начато
+**Следующая задача:** Этап 1.1 - Настройка структуры проекта (backend/)
